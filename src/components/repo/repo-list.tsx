@@ -81,19 +81,12 @@ interface IRepoList {
 export const RepoList = observer(({ searchText }: IRepoList) => {
   const {
     stores: {
-      repoStore: { repos, repoLoading, getRepos, getReposMore, reposEmpty },
+      repoStore: { repos, repoLoading, getRepos, reposEmpty },
     },
   } = useStores()
 
-  const { isRefreshing, isRefreshingMore, setIsRefreshing, setIsRefreshingMore } =
+  const { isRefreshing, isRefreshingMore, setIsRefreshing } =
     useLocalObservable(() => new LocalStore())
-
-  const onEndReached = async () => {
-    if (isRefreshingMore) return
-    setIsRefreshingMore(true)
-    await getReposMore(searchText)
-    setIsRefreshingMore(false)
-  }
 
   const onRefresh = async () => {
     setIsRefreshing(true)
@@ -122,8 +115,6 @@ export const RepoList = observer(({ searchText }: IRepoList) => {
         keyExtractor={keyExtractor}
         onRefresh={onRefresh}
         refreshing={isRefreshing}
-        onEndReached={onEndReached}
-        onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={separatorItem}
         ListEmptyComponent={

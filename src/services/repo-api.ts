@@ -1,17 +1,14 @@
 import { ApiResponse } from 'apisauce'
 import { Api } from '.'
 import { GetRepoDetailsResult, GetReposResult, IRepoDetailsApi, IReposApi } from '../types'
-import { INCREMENT_DATA } from '../utils'
 import { getGeneralApiProblem } from './api-problem'
 
 class RepoApi {
-  async getRepos(searchText: string, page: number): Promise<GetReposResult> {
+  async getRepos(searchText: string): Promise<GetReposResult> {
     try {
-      const response: ApiResponse<IReposApi> = await Api.apisauce.get('/search/repositories', {
-        q: searchText,
-        page,
-        per_page: INCREMENT_DATA,
-      })
+      const response: ApiResponse<IReposApi[]> = await Api.apisauce.get(`/users/${searchText}/repos`)
+
+      console.log('TEST response', response.data)
 
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -19,7 +16,7 @@ class RepoApi {
           throw problem
         }
       }
-      return { kind: 'ok', repos: response?.data?.items, total: response?.data?.total_count }
+      return { kind: 'ok', repos: response?.data }
     } catch (e) {
       throw Error(e.kind)
     }

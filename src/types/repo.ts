@@ -52,7 +52,7 @@ export interface IRepo {
   ssh_url: string
   clone_url: string
   svn_url: string
-  homepage: string
+  homepage: null
   size: number
   stargazers_count: number
   watchers_count: number
@@ -67,17 +67,16 @@ export interface IRepo {
   archived: boolean
   disabled: boolean
   open_issues_count: number
-  license: License
+  license: null
   allow_forking: boolean
   is_template: boolean
   web_commit_signoff_required: boolean
-  topics: string[]
+  topics: any[]
   visibility: string
   forks: number
   open_issues: number
   watchers: number
   default_branch: string
-  score: number
 }
 
 export interface License {

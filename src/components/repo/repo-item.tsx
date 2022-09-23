@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { TouchableOpacity, ViewStyle, TextStyle, Text, View, ImageStyle, Image } from 'react-native'
+import { TouchableOpacity, ViewStyle, TextStyle, Text, View } from 'react-native'
 import { color, rounding, spacing, tpMediumTextL, tpRegularTextM } from '../../theme'
 import { HomeScreenNavProp, IRepo } from '../../types'
 import { metrics } from '../../utils'
@@ -11,7 +11,6 @@ const CONTAINER: ViewStyle = {
   borderColor: color.border,
   borderWidth: 1,
   borderRadius: rounding.regular,
-  // marginVertical: spacing.item / 2,
 }
 
 const TEXT_CONTAINER: ViewStyle = {
@@ -25,14 +24,6 @@ const TITLE_TEXT: TextStyle = {
 }
 const DESCRIPTION_TEXT: TextStyle = {
   ...tpRegularTextM,
-}
-
-const IMAGE: ImageStyle = {
-  width: 78,
-  height: 78,
-  resizeMode: 'contain',
-  borderTopRightRadius: rounding.regular,
-  borderBottomRightRadius: rounding.regular,
 }
 
 export interface IRepoItem {
@@ -57,7 +48,6 @@ export const RepoItem = observer(({ item }: IRepoItem) => {
           {item.description}
         </Text>
       </View>
-      <Image source={{ uri: item.owner.avatar_url }} style={IMAGE} />
     </TouchableOpacity>
   )
 })

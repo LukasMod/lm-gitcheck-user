@@ -6,9 +6,9 @@ import { getGeneralApiProblem } from './api-problem'
 class RepoApi {
   async getRepos(searchText: string): Promise<GetReposResult> {
     try {
-      const response: ApiResponse<IReposApi[]> = await Api.apisauce.get(`/users/${searchText}/repos`)
-
-      console.log('TEST response', response.data)
+      const response: ApiResponse<IReposApi[]> = await Api.apisauce.get(
+        `/users/${searchText}/repos`
+      )
 
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)

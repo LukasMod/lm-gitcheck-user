@@ -43,7 +43,6 @@ export default class RepoStore {
       const response: GetReposResult = yield repoApi.getRepos(searchText)
       if (response.kind !== 'ok') throw Error(response.kind)
 
-      this.setReposEmpty(Boolean(!response.repos?.length))
       this.setRepos(response.repos)
     } catch (e) {
       console.log('getRepos', e)
@@ -51,6 +50,7 @@ export default class RepoStore {
         Alert.alert('Search limit reached, try again later')
       } else {
         this.setRepos([])
+        this.setReposEmpty(true)
       }
     } finally {
       this.setRepoLoading(false)

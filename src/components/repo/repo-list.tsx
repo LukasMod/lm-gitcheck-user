@@ -51,10 +51,6 @@ const SEPARATOR: ViewStyle = {
 
 const keyExtractor = (item: IRepo) => `${item.id}`
 
-const renderItem = ({ item }: { item: IRepo }) => {
-  return <RepoItem item={item} />
-}
-
 const separatorItem = () => <View style={SEPARATOR} />
 
 class LocalStore {
@@ -76,23 +72,29 @@ class LocalStore {
 
 interface IRepoList {
   searchText: string
+  onPressItem: (id: number) => void
 }
 
-export const RepoList = observer(({ searchText }: IRepoList) => {
+export const RepoList = observer(({ searchText, onPressItem }: IRepoList) => {
   const {
     stores: {
       repoStore: { repos, repoLoading, getRepos, reposEmpty },
     },
   } = useStores()
 
-  const { isRefreshing, isRefreshingMore, setIsRefreshing } =
-    useLocalObservable(() => new LocalStore())
+  const { isRefreshing, isRefreshingMore, setIsRefreshing } = useLocalObservable(
+    () => new LocalStore()
+  )
 
   const onRefresh = async () => {
     setIsRefreshing(true)
     await getRepos(searchText)
     setIsRefreshing(false)
   }
+
+  const renderItem = React.useCallback(({ item }: { item: IRepo }) => {
+    return <RepoItem item={item} onPressItem={onPressItem} />
+  }, [])
 
   if (!repos) {
     return (

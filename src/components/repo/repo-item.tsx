@@ -1,10 +1,9 @@
 import * as React from 'react'
 import { TouchableOpacity, ViewStyle, TextStyle, Text, View } from 'react-native'
 import { color, rounding, spacing, tpMediumTextL, tpRegularTextM } from '../../theme'
-import { HomeScreenNavProp, IRepo } from '../../types'
+import { IRepo } from '../../types'
 import { metrics } from '../../utils'
 import { observer } from 'mobx-react-lite'
-import { useNavigation } from '@react-navigation/native'
 
 const CONTAINER: ViewStyle = {
   flexDirection: 'row',
@@ -28,23 +27,23 @@ const DESCRIPTION_TEXT: TextStyle = {
 
 export interface IRepoItem {
   item: IRepo
+  onPressItem: (id: number) => void
 }
 
-export const RepoItem = observer(({ item }: IRepoItem) => {
-  const navigation = useNavigation<HomeScreenNavProp>()
-
-  const navigateToDetails = () => {
-    navigation.navigate('Details', { repoId: item.id })
+export const RepoItem = observer(({ item, onPressItem }: IRepoItem) => {
+  const onPress = () => {
+    onPressItem(item.id)
   }
 
   return (
     <TouchableOpacity
       style={CONTAINER}
       activeOpacity={metrics.activeOpacity}
-      onPress={navigateToDetails}>
+      onPress={onPress}
+      testID="containerTestId">
       <View style={TEXT_CONTAINER}>
         <Text style={TITLE_TEXT}>{item.name}</Text>
-        <Text style={DESCRIPTION_TEXT} numberOfLines={1}>
+        <Text style={DESCRIPTION_TEXT} numberOfLines={1} testID="repoDescriptionTestId">
           {item.description}
         </Text>
       </View>
